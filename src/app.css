@@ -1,0 +1,4 @@
+.splitpanes.default-theme .splitpanes__pane {
+	/* sets background color of the panes */
+	background-color: var(--bs-body-color-rgb) !important;
+}

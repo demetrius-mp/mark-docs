@@ -1,5 +1,6 @@
 <script lang="ts">
 	import 'bootstrap/dist/css/bootstrap.min.css';
+	import '../app.css';
 	import { onMount } from 'svelte';
 	import IconCog from '~icons/mdi/Cog';
 	import IconLogoutVariant from '~icons/mdi/LogoutVariant';
