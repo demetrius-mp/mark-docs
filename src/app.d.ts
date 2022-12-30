@@ -5,7 +5,9 @@
 // and what to do when importing types
 declare namespace App {
 	// interface Error {}
-	// interface Locals {}
+	interface Locals {
+		currentUser?: Omit<import('@prisma/client').User, 'password'>;
+	}
 	// interface PageData {}
 	// interface Platform {}
 }
