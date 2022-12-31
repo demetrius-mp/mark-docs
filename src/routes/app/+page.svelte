@@ -1,5 +1,5 @@
 <script lang="ts">
-	import InkMde from '$lib/components/Form/InkMDE.svelte';
+	import { Ink } from 'ink-mde-svelte';
 	import { toastStore } from '$lib/components/Toasts';
 	import IconFileDocument from '~icons/mdi/FileDocument';
 	import IconTrash from '~icons/mdi/Trash';
@@ -10,7 +10,7 @@
 	import { onMount } from 'svelte';
 	import { debounce, throttle } from 'lodash-es';
 	import Markdown from '$lib/components/Markdown.svelte';
-	import type { Instance as Ink } from 'ink-mde';
+	import type { Instance as InkInstance } from 'ink-mde';
 	import { themeStore } from '$lib/theme';
 
 	let doc = {
@@ -22,7 +22,7 @@
 	let viewMode: 'render' | 'edit' = 'edit';
 
 	let contentToRender = '';
-	let editorRef: Ink;
+	let editorRef: InkInstance;
 
 	function syncDoc() {
 		doc.content = editorRef.getDoc();
@@ -174,7 +174,8 @@
 
 <div>
 	<div class:d-none={viewMode !== 'edit'}>
-		<InkMde
+		<Ink
+			bind:editor={editorRef}
 			options={{
 				hooks: {
 					afterUpdate: debouncedSetDocContent
@@ -184,8 +185,6 @@
 					toolbar: true
 				}
 			}}
-			bind:value={doc.content}
-			bind:editor={editorRef}
 		/>
 	</div>
 
@@ -195,6 +194,14 @@
 </div>
 
 <style>
+	:global(.ͼ1.cm-editor.cm-focused) {
+		outline: 0 !important;
+	}
+
+	:global(.ink-mde) {
+		height: calc(100vh - 145px) !important;
+	}
+
 	.title-input {
 		border: none;
 		outline: none;
