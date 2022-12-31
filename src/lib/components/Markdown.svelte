@@ -8,13 +8,17 @@
 
 	let renderedContent = '';
 
+	function renderToMarkdown(value: string) {
+		return DOMPurify.sanitize(marked(value));
+	}
+
 	onMount(() => {
-		renderedContent = DOMPurify.sanitize(marked(content));
+		renderedContent = renderToMarkdown(content);
 	});
 
 	$: {
 		if (browser) {
-			renderedContent = DOMPurify.sanitize(marked(content));
+			renderedContent = renderToMarkdown(content);
 		}
 	}
 </script>

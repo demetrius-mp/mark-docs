@@ -11,6 +11,7 @@
 	import { debounce, throttle } from 'lodash-es';
 	import Markdown from '$lib/components/Markdown.svelte';
 	import type { Instance as Ink } from 'ink-mde';
+	import { themeStore } from '$lib/theme';
 
 	let doc = {
 		title: 'New document',
@@ -111,7 +112,7 @@
 		<input
 			type="text"
 			style="font-size: 32px;"
-			class="border-0 title-input lead w-100 text-wrap"
+			class="border-0 title-input lead w-100 text-wrap bg-body text-body"
 			bind:value={doc.title}
 		/>
 
@@ -123,7 +124,7 @@
 				data-bs-toggle="dropdown"
 				aria-expanded="false"
 			>
-				<IconDotsVertical style="font-size: 24px;" />
+				<IconDotsVertical style="font-size: 24px;" class="text-body" />
 			</button>
 			<ul class="dropdown-menu">
 				<li>
@@ -162,7 +163,11 @@
 		</div>
 	</div>
 
-	<input class="description-input ms-1 w-100" maxlength={100} bind:value={doc.description} />
+	<input
+		class="description-input ms-1 w-100 bg-body text-body"
+		maxlength={100}
+		bind:value={doc.description}
+	/>
 </div>
 
 <hr class="m-0" />
@@ -175,6 +180,7 @@
 					afterUpdate: debouncedSetDocContent
 				},
 				interface: {
+					appearance: $themeStore,
 					toolbar: true
 				}
 			}}

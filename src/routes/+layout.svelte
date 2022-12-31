@@ -3,14 +3,25 @@
 	import '../app.css';
 	import { onMount } from 'svelte';
 	import IconCog from '~icons/mdi/Cog';
+	import IconThemeLightDark from '~icons/mdi/ThemeLightDark';
 	import IconLogoutVariant from '~icons/mdi/LogoutVariant';
 	import PageLoadingIndicator from '$lib/components/PageLoadingIndicator.svelte';
 	import { navigating, page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import Toasts from '$lib/components/Toasts';
 	import type { LayoutData } from './$types';
+	import Form from '$lib/components/Form/Form.svelte';
+	import { themeStore } from '$lib/theme';
 
 	export let data: LayoutData;
+
+	themeStore.set(data.theme);
+
+	function handleAfterSubmitToggleTheme() {
+		themeStore.toggle();
+
+		document.documentElement.setAttribute('data-bs-theme', $themeStore);
+	}
 
 	onMount(async () => {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -74,6 +85,14 @@
 									<IconCog />
 									Settings
 								</a>
+							</li>
+							<li>
+								<Form action="/theme" method="post" afterSubmit={handleAfterSubmitToggleTheme}>
+									<button type="submit" class="dropdown-item d-flex align-items-center gap-1">
+										<IconThemeLightDark />
+										Toggle theme
+									</button>
+								</Form>
 							</li>
 							<li>
 								<hr class="dropdown-divider" />

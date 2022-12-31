@@ -5,7 +5,7 @@
 
 	interface $$Props extends HTMLFormAttributes {
 		class?: string;
-		toastMessage: string;
+		toastMessage?: string;
 		beforeSubmit?: () => void;
 		afterSubmit?: () => void;
 	}
@@ -16,7 +16,7 @@
 
 	export let beforeSubmit: () => void = noop;
 	export let afterSubmit: () => void = noop;
-	export let toastMessage: string;
+	export let toastMessage: string | undefined = undefined;
 	let klass = '';
 	export { klass as class };
 
@@ -26,12 +26,14 @@
 		beforeSubmit();
 		return async ({ result }) => {
 			if (result.type === 'success' || result.type === 'redirect') {
-				toastStore.push({
-					message: toastMessage,
-					kind: 'success',
-					title: 'Success',
-					closeAfterMs: 3000
-				});
+				if (toastMessage) {
+					toastStore.push({
+						message: toastMessage,
+						kind: 'success',
+						title: 'Success',
+						closeAfterMs: 3000
+					});
+				}
 			}
 
 			await applyAction(result);
