@@ -6,7 +6,7 @@
 </script>
 
 {#if kind === 'loading'}
-	<Spinner class="me-2" />
+	<Spinner class="me-2" sm />
 {:else}
 	<svg
 		class={`rounded text-${kind} me-2`}
