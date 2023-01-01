@@ -191,26 +191,26 @@
 
 <hr class="m-0" />
 
-<div>
-	<div class:d-none={viewMode !== 'edit'}>
-		<Ink
-			bind:editor={editorRef}
-			options={{
-				hooks: {
-					afterUpdate: debouncedSetDocContent
-				},
-				interface: {
-					appearance: $themeStore,
-					toolbar: true
-				}
-			}}
-		/>
-	</div>
+<div class:d-none={viewMode !== 'edit'}>
+	<Ink
+		bind:editor={editorRef}
+		options={{
+			hooks: {
+				afterUpdate: debouncedSetDocContent
+			},
+			interface: {
+				appearance: $themeStore,
+				toolbar: true
+			}
+		}}
+	/>
+</div>
 
-	<div class:d-none={viewMode !== 'render'} class="container mt-3 fill-height">
+{#if viewMode === 'render'}
+	<div class="container mt-3 fill-height">
 		<Markdown content={contentToRender} />
 	</div>
-</div>
+{/if}
 
 <style>
 	:global(.ͼ1.cm-editor.cm-focused) {
