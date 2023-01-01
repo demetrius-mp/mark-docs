@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { Ink } from 'ink-mde-svelte';
 	import { toastStore } from '$lib/components/Toasts';
-	import IconFileDocument from '~icons/mdi/FileDocument';
-	import IconTrash from '~icons/mdi/Trash';
-	import IconEye from '~icons/mdi/Eye';
-	import IconPencil from '~icons/mdi/Pencil';
-	import IconDotsVertical from '~icons/mdi/DotsVertical';
 	import sleep from '$lib/sleep';
 	import { onMount } from 'svelte';
 	import { debounce, throttle } from 'lodash-es';
@@ -13,13 +8,14 @@
 	import type * as ink from 'ink-mde';
 	import { themeStore } from '$lib/theme';
 	import type { PageData } from './$types';
+	import DocHeader from '$lib/components/Site/DocHeader.svelte';
 
 	export let data: PageData;
 	$: doc = data.doc;
 
 	$: {
 		if (editorRef) {
-			editorRef.update(doc.content);
+			editorRef.update(data.doc.content);
 		}
 	}
 
@@ -97,11 +93,9 @@
 		}
 	}
 
-	async function handleEnterKeyUpOnInvisibleInputs(e: KeyboardEvent) {
-		if (e.key === 'Enter') {
-			throttledHandleSave.cancel();
-			handleSave();
-		}
+	function handleDocHeaderSave() {
+		throttledHandleSave.cancel();
+		handleSave();
 	}
 
 	onMount(() => {
@@ -119,75 +113,12 @@
 	</title>
 </svelte:head>
 
-<div class="mx-2 mb-2">
-	<div class="d-flex align-items-center justify-content-between gap-1 my-1">
-		<div class="d-flex align-items-center gap-1" style="min-width: 0; flex: 1">
-			<IconFileDocument style="font-size: 32px; min-width: 32px;" />
-
-			<input
-				type="text"
-				style="font-size: 32px"
-				class="invisible-input lead text-wrap bg-body text-body"
-				maxlength={50}
-				bind:value={doc.title}
-				on:keyup={handleEnterKeyUpOnInvisibleInputs}
-			/>
-		</div>
-
-		<div class="dropdown">
-			<button
-				class="border-0"
-				style="background-color: inherit;"
-				type="button"
-				data-bs-toggle="dropdown"
-				aria-expanded="false"
-			>
-				<IconDotsVertical style="font-size: 24px;" class="text-body" />
-			</button>
-			<ul class="dropdown-menu">
-				<li>
-					<h6 class="dropdown-header text-wrap">View mode</h6>
-				</li>
-				<li class="mb-1">
-					<button
-						on:click={setViewModeToEdit}
-						class:active={viewMode === 'edit'}
-						class="dropdown-item"
-					>
-						<IconPencil style="vertical-align: text-bottom;" />
-						Edit
-					</button>
-				</li>
-				<li>
-					<button
-						on:click={setViewModeToRender}
-						class:active={viewMode === 'render'}
-						class="dropdown-item"
-					>
-						<IconEye style="vertical-align: text-bottom;" />
-						Render
-					</button>
-				</li>
-				<li>
-					<hr class="dropdown-divider" />
-				</li>
-				<li>
-					<button class="dropdown-item text-danger">
-						<IconTrash style="vertical-align: text-bottom;" />
-						Delete
-					</button>
-				</li>
-			</ul>
-		</div>
-	</div>
-
-	<input
-		class="invisible-input w-100 bg-body text-body"
-		maxlength={100}
-		bind:value={doc.description}
-		on:keyup={handleEnterKeyUpOnInvisibleInputs}
-	/>
-</div>
+<DocHeader
+	bind:title={doc.title}
+	bind:description={doc.description}
+	{viewMode}
+	on:save={handleDocHeaderSave}
+/>
 
 <hr class="m-0" />
 
@@ -227,23 +158,5 @@
 
 	.fill-height {
 		height: calc(100vh - 161px) !important;
-	}
-
-	.invisible-input {
-		border: none;
-		outline: none;
-		min-width: 0;
-		flex: 1;
-		padding: 0px 5px;
-	}
-
-	.invisible-input:hover {
-		outline: 1px solid gray;
-		border-radius: 0.25em;
-	}
-
-	.invisible-input:focus {
-		outline: 1px solid var(--bs-primary);
-		border-radius: 0.25em;
 	}
 </style>
