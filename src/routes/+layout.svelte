@@ -40,7 +40,7 @@
 <header>
 	<nav class="navbar bg-body-tertiary">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/app">Task Manager</a>
+			<a class="navbar-brand" href="/app">Mark Docs</a>
 			<ul class="navbar-nav flex-row gap-3">
 				{#if !data.currentUser}
 					<li class="nav-item">

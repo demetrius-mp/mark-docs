@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-	<title>Task Manager - Sign in</title>
+	<title>Mark Docs - Sign in</title>
 </svelte:head>
 
 <main class="container mt-4">

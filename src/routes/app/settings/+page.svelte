@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-	<title>Task Manager - Settings</title>
+	<title>Mark Docs - Settings</title>
 </svelte:head>
 
 <main class="container mt-4">
