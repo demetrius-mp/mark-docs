@@ -1,0 +1,17 @@
+.splitpanes.default-theme .splitpanes__pane {
+	background-color: var(--bs-body-color-rgb) !important;
+}
+
+.default-theme.splitpanes--vertical > .splitpanes__splitter,
+.default-theme .splitpanes--vertical > .splitpanes__splitter {
+	border-left-color: var(--bs-secondary-bg) !important;
+}
+
+.splitpanes.default-theme .splitpanes__splitter {
+	background-color: var(--bs-secondary-bg) !important;
+}
+
+.splitpanes.default-theme .splitpanes__splitter:before,
+.splitpanes.default-theme .splitpanes__splitter:after {
+	background-color: var(--bs-emphasis-color) !important;
+}
