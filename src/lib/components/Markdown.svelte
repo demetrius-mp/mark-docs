@@ -3,7 +3,7 @@
 	import DOMPurify from 'dompurify';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { themeStore } from '$lib/theme';
+	import { themeStore } from '$lib/stores/themeStore';
 
 	export let content: string;
 

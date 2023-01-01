@@ -5,7 +5,7 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import Form from '$lib/components/Form/Form.svelte';
-	import { themeStore } from '$lib/theme';
+	import { themeStore } from '$lib/stores/themeStore';
 
 	type User = {
 		name: string;

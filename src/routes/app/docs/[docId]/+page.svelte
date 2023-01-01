@@ -6,9 +6,10 @@
 	import { debounce, throttle } from 'lodash-es';
 	import Markdown from '$lib/components/Markdown.svelte';
 	import type * as ink from 'ink-mde';
-	import { themeStore } from '$lib/theme';
+	import { themeStore } from '$lib/stores/themeStore';
 	import type { PageData } from './$types';
 	import DocHeader from '$lib/components/Site/DocHeader.svelte';
+	import { docViewModeStore } from '$lib/stores/docViewModeStore';
 
 	export let data: PageData;
 	$: doc = data.doc;
@@ -19,8 +20,6 @@
 		}
 	}
 
-	let viewMode: 'render' | 'edit' = 'edit';
-
 	let contentToRender = data.doc.content;
 	let editorRef: ink.Instance;
 
@@ -29,16 +28,16 @@
 		debouncedSetDocContent.cancel();
 	}
 
-	function setViewModeToRender() {
-		viewMode = 'render';
-
-		syncDoc();
-		contentToRender = doc.content;
+	//#region View Mode
+	$: {
+		if ($docViewModeStore === 'render') {
+			syncDoc();
+			contentToRender = doc.content;
+		}
 	}
+	//#endregion View Mode
 
-	function setViewModeToEdit() {
-		viewMode = 'edit';
-	}
+	//#region Save document
 
 	async function handleSave() {
 		syncDoc();
@@ -64,11 +63,15 @@
 
 	const throttledHandleSave = throttle(handleSave, 5000);
 
+	//#endregion Save document
+
 	function setDocContent(content: string) {
 		doc.content = content;
 	}
 
 	const debouncedSetDocContent = debounce(setDocContent, 3000);
+
+	//#region Keyboard Commands
 
 	async function handleKeyDown(e: KeyboardEvent) {
 		if (e.ctrlKey && e.key === 's') {
@@ -81,17 +84,19 @@
 		if (e.ctrlKey && e.key === 'r') {
 			e.preventDefault();
 
-			setViewModeToRender();
+			docViewModeStore.render();
 			return;
 		}
 
 		if (e.ctrlKey && e.key === 'e') {
 			e.preventDefault();
 
-			setViewModeToEdit();
+			docViewModeStore.edit();
 			return;
 		}
 	}
+
+	//#endregion Keyboard Commands
 
 	function handleDocHeaderSave() {
 		throttledHandleSave.cancel();
@@ -116,13 +121,12 @@
 <DocHeader
 	bind:title={doc.title}
 	bind:description={doc.description}
-	{viewMode}
 	on:save={handleDocHeaderSave}
 />
 
 <hr class="m-0" />
 
-<div class:d-none={viewMode !== 'edit'}>
+<div class:d-none={$docViewModeStore !== 'edit'}>
 	<Ink
 		bind:editor={editorRef}
 		options={{
@@ -137,7 +141,7 @@
 	/>
 </div>
 
-{#if viewMode === 'render'}
+{#if $docViewModeStore === 'render'}
 	<div class="container mt-3 fill-height">
 		<Markdown content={contentToRender} />
 	</div>

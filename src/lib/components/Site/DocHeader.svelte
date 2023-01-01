@@ -5,16 +5,13 @@
 	import IconPencil from '~icons/mdi/Pencil';
 	import IconDotsVertical from '~icons/mdi/DotsVertical';
 	import { createEventDispatcher } from 'svelte';
-
-	type ViewMode = 'render' | 'edit';
+	import { docViewModeStore } from '$lib/stores/docViewModeStore';
 
 	export let title: string;
 	export let description: string;
-	export let viewMode: ViewMode;
 
 	type Events = {
 		save: void;
-		changeViewMode: ViewMode;
 	};
 
 	const dispatch = createEventDispatcher<Events>();
@@ -57,8 +54,8 @@
 				</li>
 				<li class="mb-1">
 					<button
-						on:click={() => dispatch('changeViewMode', 'edit')}
-						class:active={viewMode === 'edit'}
+						on:click={docViewModeStore.edit}
+						class:active={$docViewModeStore === 'edit'}
 						class="dropdown-item"
 					>
 						<IconPencil style="vertical-align: text-bottom;" />
@@ -67,8 +64,8 @@
 				</li>
 				<li>
 					<button
-						on:click={() => dispatch('changeViewMode', 'render')}
-						class:active={viewMode === 'render'}
+						on:click={docViewModeStore.render}
+						class:active={$docViewModeStore === 'render'}
 						class="dropdown-item"
 					>
 						<IconEye style="vertical-align: text-bottom;" />

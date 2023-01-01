@@ -6,7 +6,7 @@
 	import { navigating } from '$app/stores';
 	import Toasts from '$lib/components/Toasts';
 	import type { LayoutData } from './$types';
-	import { themeStore } from '$lib/theme';
+	import { themeStore } from '$lib/stores/themeStore';
 	import Navbar from '$lib/components/Site/Navbar.svelte';
 
 	export let data: LayoutData;
