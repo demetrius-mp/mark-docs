@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import DocList from '$lib/components/Site/DocList.svelte';
 	import { debounce } from 'lodash-es';
 	import { Splitpanes, Pane } from 'svelte-splitpanes';
 	import type { LayoutServerData } from './$types';
@@ -32,29 +33,10 @@
 					debouncedSearchDocs(e.currentTarget.value);
 				}}
 			/>
-			<ul class="nav nav-pills flex-column gap-1">
-				{#each filteredDocs as doc}
-					<li class="nav-item">
-						<a
-							class="nav-link document-pill"
-							class:active={currentDocId === doc.id}
-							aria-current="page"
-							href="/app/docs/{doc.id}"
-						>
-							{doc.title}
-						</a>
-					</li>
-				{/each}
-			</ul>
+			<DocList docs={filteredDocs} {currentDocId} />
 		</div>
 	</Pane>
 	<Pane size={80}>
 		<slot />
 	</Pane>
 </Splitpanes>
-
-<style>
-	.document-pill:not(.active):hover {
-		background-color: var(--bs-primary-bg-subtle);
-	}
-</style>
