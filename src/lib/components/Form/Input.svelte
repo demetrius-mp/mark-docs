@@ -18,18 +18,21 @@
 </script>
 
 <div>
-	<label for={name} class="form-label">
-		<slot name="label">
-			{label}
-		</slot>
-		{#if required}
-			<span class="text-danger"> * </span>
-		{/if}
-	</label>
+	{#if label || $$slots.label}
+		<label for={name} class="form-label">
+			<slot name="label">
+				{label}
+			</slot>
+			{#if required}
+				<span class="text-danger"> * </span>
+			{/if}
+		</label>
+	{/if}
 
 	<input
 		{name}
 		{required}
+		on:input
 		class:is-invalid={errors}
 		class="form-control {klass}"
 		{...$$restProps}
