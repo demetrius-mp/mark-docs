@@ -114,16 +114,19 @@
 </svelte:head>
 
 <div class="mx-2 mb-2">
-	<div class="d-flex align-items-center justify-content-between gap-2 my-1">
-		<IconFileDocument style="font-size: 32px; min-width: 32px;" />
+	<div class="d-flex align-items-center justify-content-between gap-1 my-1">
+		<div class="d-flex align-items-center gap-1" style="min-width: 0; flex: 1">
+			<IconFileDocument style="font-size: 32px; min-width: 32px;" />
 
-		<input
-			type="text"
-			style="font-size: 32px"
-			class="invisible-input lead text-wrap bg-body text-body"
-			bind:value={doc.title}
-			on:keyup={handleEnterKeyUpOnInvisibleInputs}
-		/>
+			<input
+				type="text"
+				style="font-size: 32px"
+				class="invisible-input lead text-wrap bg-body text-body"
+				maxlength={50}
+				bind:value={doc.title}
+				on:keyup={handleEnterKeyUpOnInvisibleInputs}
+			/>
+		</div>
 
 		<div class="dropdown">
 			<button
@@ -216,6 +219,7 @@
 		border: none;
 		outline: none;
 		min-width: 0;
+		flex: 1;
 		padding: 0px 5px;
 	}
 
