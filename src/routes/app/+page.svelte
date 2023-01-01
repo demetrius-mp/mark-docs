@@ -27,13 +27,13 @@
 	function syncDoc() {
 		doc.content = editorRef.getDoc();
 		debouncedSetDocContent.cancel();
-		contentToRender = doc.content;
 	}
 
 	function setViewModeToRender() {
 		viewMode = 'render';
 
 		syncDoc();
+		contentToRender = doc.content;
 	}
 
 	function setViewModeToEdit() {
@@ -93,6 +93,13 @@
 		}
 	}
 
+	async function handleEnterKeyUpOnInvisibleInputs(e: KeyboardEvent) {
+		if (e.key === 'Enter') {
+			throttledHandleSave.cancel();
+			handleSave();
+		}
+	}
+
 	onMount(() => {
 		document.addEventListener('keydown', handleKeyDown);
 
@@ -107,13 +114,15 @@
 </svelte:head>
 
 <div class="mx-2 mb-2">
-	<div class="d-flex align-items-center mt-1">
-		<IconFileDocument class="me-2" style="font-size: 32px; min-width: 32px;" />
+	<div class="d-flex align-items-center justify-content-between gap-2 my-1">
+		<IconFileDocument style="font-size: 32px; min-width: 32px;" />
+
 		<input
 			type="text"
-			style="font-size: 32px;"
-			class="border-0 title-input lead w-100 text-wrap bg-body text-body"
+			style="font-size: 32px"
+			class="invisible-input lead text-wrap bg-body text-body"
 			bind:value={doc.title}
+			on:keyup={handleEnterKeyUpOnInvisibleInputs}
 		/>
 
 		<div class="dropdown">
@@ -164,9 +173,10 @@
 	</div>
 
 	<input
-		class="description-input ms-1 w-100 bg-body text-body"
+		class="invisible-input w-100 bg-body text-body"
 		maxlength={100}
 		bind:value={doc.description}
+		on:keyup={handleEnterKeyUpOnInvisibleInputs}
 	/>
 </div>
 
@@ -202,14 +212,20 @@
 		height: calc(100vh - 145px) !important;
 	}
 
-	.title-input {
+	.invisible-input {
 		border: none;
 		outline: none;
+		min-width: 0;
+		padding: 0px 5px;
 	}
 
-	.description-input {
-		border: none;
-		outline: none;
-		resize: none;
+	.invisible-input:hover {
+		outline: 1px solid gray;
+		border-radius: 0.25em;
+	}
+
+	.invisible-input:focus {
+		outline: 1px solid var(--bs-primary);
+		border-radius: 0.25em;
 	}
 </style>
