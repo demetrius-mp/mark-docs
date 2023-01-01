@@ -2,7 +2,6 @@
 	import { Ink } from 'ink-mde-svelte';
 	import { toastStore } from '$lib/components/Toasts';
 	import sleep from '$lib/sleep';
-	import { onMount } from 'svelte';
 	import { debounce, throttle } from 'lodash-es';
 	import Markdown from '$lib/components/Markdown.svelte';
 	import type * as ink from 'ink-mde';
@@ -10,6 +9,7 @@
 	import type { PageData } from './$types';
 	import DocHeader from '$lib/components/Site/DocHeader.svelte';
 	import { docViewModeStore } from '$lib/stores/docViewModeStore';
+	import KeyboardCommands from '$lib/components/Site/KeyboardCommands.svelte';
 
 	export let data: PageData;
 	$: doc = data.doc;
@@ -28,14 +28,12 @@
 		debouncedSetDocContent.cancel();
 	}
 
-	//#region View Mode
 	$: {
 		if ($docViewModeStore === 'render') {
 			syncDoc();
 			contentToRender = doc.content;
 		}
 	}
-	//#endregion View Mode
 
 	//#region Save document
 
@@ -71,45 +69,10 @@
 
 	const debouncedSetDocContent = debounce(setDocContent, 3000);
 
-	//#region Keyboard Commands
-
-	async function handleKeyDown(e: KeyboardEvent) {
-		if (e.ctrlKey && e.key === 's') {
-			e.preventDefault();
-
-			throttledHandleSave();
-			return;
-		}
-
-		if (e.ctrlKey && e.key === 'r') {
-			e.preventDefault();
-
-			docViewModeStore.render();
-			return;
-		}
-
-		if (e.ctrlKey && e.key === 'e') {
-			e.preventDefault();
-
-			docViewModeStore.edit();
-			return;
-		}
-	}
-
-	//#endregion Keyboard Commands
-
 	function handleDocHeaderSave() {
 		throttledHandleSave.cancel();
 		handleSave();
 	}
-
-	onMount(() => {
-		document.addEventListener('keydown', handleKeyDown);
-
-		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
-		};
-	});
 </script>
 
 <svelte:head>
@@ -117,6 +80,8 @@
 		{doc.title} - {doc.description}
 	</title>
 </svelte:head>
+
+<KeyboardCommands on:save={throttledHandleSave} />
 
 <DocHeader
 	bind:title={doc.title}
