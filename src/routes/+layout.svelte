@@ -38,7 +38,7 @@
 <Toasts position="bottom-right" />
 
 <header>
-	<nav class="navbar bg-body-tertiary">
+	<nav class="navbar bg-body-secondary">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="/app">Mark Docs</a>
 			<ul class="navbar-nav flex-row gap-3">
