@@ -67,9 +67,10 @@
 				closeAfterMs: 2000
 			});
 
-			docsStore.updateTitleById({
+			docsStore.updateById({
 				id: doc.id,
-				title: doc.title
+				title: doc.title,
+				description: doc.description
 			});
 		} else {
 			toastStore.push({

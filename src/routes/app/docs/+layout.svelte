@@ -27,7 +27,7 @@
 </script>
 
 <Splitpanes>
-	<Pane bind:size={$docListPaneSizeStore} snapSize={18}>
+	<Pane bind:size={$docListPaneSizeStore} snapSize={19}>
 		<div class="p-2 d-flex flex-column gap-2">
 			<input
 				bind:value={query}

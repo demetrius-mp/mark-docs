@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
 	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
 	import IconFileDocumentPlus from '~icons/mdi/FileDocumentPlus';
 
 	type Doc = {
 		id: number;
 		title: string;
+		description: string;
 	};
 
 	export let docs: Doc[];
@@ -31,6 +33,10 @@
 					href="/app/docs/{doc.id}"
 				>
 					{doc.title}
+					<br />
+					<small style="width: {$docListPaneSizeStore - 4}vw" class="text-truncate d-block">
+						> {doc.description}
+					</small>
 				</a>
 			</li>
 		{/each}

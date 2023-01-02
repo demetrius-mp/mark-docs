@@ -8,11 +8,12 @@ function createDocsStore() {
 	return {
 		subscribe,
 		set,
-		updateTitleById(req: { title: string; id: number }) {
+		updateById(req: { description: string; title: string; id: number }) {
 			update((docs) => {
 				return docs.map((doc) => {
 					if (doc.id === req.id) {
 						doc.title = req.title;
+						doc.description = req.description;
 						return doc;
 					} else {
 						return doc;
