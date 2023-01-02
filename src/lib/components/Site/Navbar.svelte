@@ -2,10 +2,13 @@
 	import IconCog from '~icons/mdi/Cog';
 	import IconThemeLightDark from '~icons/mdi/ThemeLightDark';
 	import IconLogoutVariant from '~icons/mdi/LogoutVariant';
+	import IconLanguageMarkdown from '~icons/mdi/LanguageMarkdown';
+	import IconMenu from '~icons/mdi/Menu';
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import Form from '$lib/components/Form/Form.svelte';
 	import { themeStore } from '$lib/stores/themeStore';
+	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
 
 	type User = {
 		name: string;
@@ -26,7 +29,20 @@
 
 <nav class="navbar bg-body-secondary">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="/app">Mark Docs</a>
+		<div class="d-flex gap-2">
+			<button
+				type="button"
+				class="menu"
+				title="Show/hide documents"
+				on:click={docListPaneSizeStore.toggle}
+			>
+				<IconMenu style="vertical-align: bottom; font-size: 1.35rem;" />
+			</button>
+			<a class="navbar-brand" href="/app">
+				<IconLanguageMarkdown style="vertical-align: sub;" />
+				Mark Docs
+			</a>
+		</div>
 		<ul class="navbar-nav flex-row gap-3">
 			{#if !user}
 				<li class="nav-item">
@@ -95,3 +111,11 @@
 		</ul>
 	</div>
 </nav>
+
+<style>
+	.menu {
+		background-color: inherit;
+		border: none;
+		color: var(--bs-navbar-brand-color);
+	}
+</style>
