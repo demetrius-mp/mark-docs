@@ -35,8 +35,6 @@
 		}
 	}
 
-	//#region Save document
-
 	async function handleSave() {
 		syncDoc();
 
@@ -60,8 +58,6 @@
 	}
 
 	const throttledHandleSave = throttle(handleSave, 5000);
-
-	//#endregion Save document
 
 	function setDocContent(content: string) {
 		doc.content = content;
