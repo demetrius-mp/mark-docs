@@ -16,5 +16,6 @@ This is how it looks like:
 
 ### To do's
 
+- Create a help page which will inform the keyboard shortcuts, along with other informations, such as how to add a profile picture.
 - Email confirmation.
 - Reset password via magic link.
