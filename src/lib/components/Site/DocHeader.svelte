@@ -1,6 +1,7 @@
 <script lang="ts">
 	import IconFileDocument from '~icons/mdi/FileDocument';
 	import IconTrash from '~icons/mdi/Trash';
+	import IconContentSave from '~icons/mdi/ContentSave';
 	import IconEye from '~icons/mdi/Eye';
 	import IconPencil from '~icons/mdi/Pencil';
 	import IconDotsVertical from '~icons/mdi/DotsVertical';
@@ -115,6 +116,12 @@
 				</li>
 				<li>
 					<hr class="dropdown-divider" />
+				</li>
+				<li>
+					<button on:click={() => dispatch('save')} class="dropdown-item">
+						<IconContentSave style="vertical-align: text-bottom;" />
+						Save
+					</button>
 				</li>
 				<li>
 					<button on:click={() => (shareDocModalIsOpen = true)} class="dropdown-item">
