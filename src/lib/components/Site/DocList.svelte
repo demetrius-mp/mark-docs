@@ -13,7 +13,7 @@
 	export let currentDocId: number;
 </script>
 
-<div class="doc-list">
+<div class="doc-list" style:--pane-size={`${$docListPaneSizeStore}vw`}>
 	<ul class="nav nav-pills flex-column gap-1">
 		<li class="nav-item">
 			<button
@@ -34,7 +34,7 @@
 				>
 					{doc.title}
 					<br />
-					<small style="width: {$docListPaneSizeStore - 6}vw" class="text-truncate d-block">
+					<small class="text-truncate d-block">
 						> {doc.description}
 					</small>
 				</a>
@@ -44,6 +44,10 @@
 </div>
 
 <style>
+	li {
+		width: calc(var(--pane-size) - 22px);
+	}
+
 	.document-pill:not(.active):hover {
 		background-color: var(--bs-primary-bg-subtle);
 	}
