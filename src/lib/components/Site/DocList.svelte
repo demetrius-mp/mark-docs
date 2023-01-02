@@ -34,7 +34,7 @@
 				>
 					{doc.title}
 					<br />
-					<small style="width: {$docListPaneSizeStore - 4}vw" class="text-truncate d-block">
+					<small style="width: {$docListPaneSizeStore - 6}vw" class="text-truncate d-block">
 						> {doc.description}
 					</small>
 				</a>
