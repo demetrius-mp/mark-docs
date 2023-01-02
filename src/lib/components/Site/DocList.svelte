@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
+	import IconFileDocumentPlus from '~icons/mdi/FileDocumentPlus';
+
 	type Doc = {
 		id: number;
 		title: string;
@@ -8,23 +11,39 @@
 	export let currentDocId: number;
 </script>
 
-<ul class="nav nav-pills flex-column gap-1">
-	{#each docs as doc}
+<div class="doc-list">
+	<ul class="nav nav-pills flex-column gap-1">
 		<li class="nav-item">
-			<a
-				class="nav-link document-pill"
-				class:active={currentDocId === doc.id}
-				aria-current="page"
-				href="/app/docs/{doc.id}"
+			<button
+				on:click={newDocModalIsOpenStore.open}
+				class="nav-link document-pill w-100 text-start"
 			>
-				{doc.title}
-			</a>
+				<IconFileDocumentPlus style="vertical-align: text-bottom;" />
+				Create new document
+			</button>
 		</li>
-	{/each}
-</ul>
+		{#each docs as doc}
+			<li class="nav-item">
+				<a
+					class="nav-link document-pill"
+					class:active={currentDocId === doc.id}
+					aria-current="page"
+					href="/app/docs/{doc.id}"
+				>
+					{doc.title}
+				</a>
+			</li>
+		{/each}
+	</ul>
+</div>
 
 <style>
 	.document-pill:not(.active):hover {
 		background-color: var(--bs-primary-bg-subtle);
+	}
+
+	.doc-list {
+		height: calc(100vh - 126px);
+		overflow-y: auto;
 	}
 </style>

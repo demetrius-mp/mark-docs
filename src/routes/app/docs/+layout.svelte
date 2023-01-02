@@ -26,7 +26,7 @@
 
 <Splitpanes>
 	<Pane size={20}>
-		<div class="p-2 d-flex flex-column gap-3">
+		<div class="p-2 d-flex flex-column gap-2">
 			<input
 				bind:value={query}
 				type="text"

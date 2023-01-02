@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Ink } from 'ink-mde-svelte';
 	import { toastStore } from '$lib/components/Toasts';
-	import sleep from '$lib/sleep';
+	import sleep from '$lib/utils/sleep';
 	import { debounce, throttle } from 'lodash-es';
 	import Markdown from '$lib/components/Markdown.svelte';
 	import type * as ink from 'ink-mde';
