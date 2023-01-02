@@ -44,17 +44,32 @@
 			title: 'Loading'
 		});
 
-		await sleep(3000);
+		const r = await fetch(`/app/docs/${doc.id}/update`, {
+			method: 'POST',
+			body: JSON.stringify({
+				title: doc.title,
+				description: doc.description,
+				content: doc.content
+			})
+		});
 
 		toastStore.close(id);
 		await sleep(450);
 
-		toastStore.push({
-			kind: 'success',
-			message: 'Document saved successfully!',
-			title: 'Success',
-			closeAfterMs: 2000
-		});
+		if (r.status === 200) {
+			toastStore.push({
+				kind: 'success',
+				message: 'Document saved successfully!',
+				title: 'Success',
+				closeAfterMs: 2000
+			});
+		} else {
+			toastStore.push({
+				kind: 'danger',
+				message: 'Error saving the document.',
+				title: 'Error'
+			});
+		}
 	}
 
 	const throttledHandleSave = throttle(handleSave, 5000);
