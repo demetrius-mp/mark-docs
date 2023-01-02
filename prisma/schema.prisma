@@ -23,13 +23,12 @@ model User {
   @@map("users")
 }
 
-enum Visibility {
+enum DocVisibility {
   PRIVATE
   PUBLIC
-  ONLY_WITH_LINK
 }
 
-enum SharePrivileges {
+enum SharedDocPrivileges {
   EDITOR
   VIEWER
 }
@@ -37,14 +36,16 @@ enum SharePrivileges {
 model Doc {
   id Int @id @default(autoincrement()) @map("id")
 
-  title           String          @map("title")
-  description     String          @map("description")
-  content         String          @map("content")
-  visibility      Visibility      @default(PRIVATE)
-  sharePrivileges SharePrivileges @default(VIEWER)
+  uuid String @unique @default(uuid()) @map("uuid")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  title           String              @map("title")
+  description     String              @map("description")
+  content         String              @map("content")
+  visibility      DocVisibility       @default(PRIVATE) @map("visibility")
+  sharePrivileges SharedDocPrivileges @default(VIEWER) @map("share_privileges")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   user   User @relation(fields: [userId], references: [id])
   userId Int  @map("user_id")
