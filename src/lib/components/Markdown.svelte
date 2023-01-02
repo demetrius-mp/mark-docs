@@ -44,12 +44,8 @@
 	{/if}
 </svelte:head>
 
-<div class="markdown-body custom-markdown-body">
-	{@html renderedContent}
+<div>
+	<div class="px-3 markdown-body py-3">
+		{@html renderedContent}
+	</div>
 </div>
-
-<style>
-	.custom-markdown-body {
-		background-color: inherit;
-	}
-</style>

@@ -24,6 +24,8 @@
 	let editorRef: ink.Instance;
 
 	function syncDoc() {
+		if (!editorRef) return;
+
 		doc.content = editorRef.getDoc();
 		debouncedSetDocContent.cancel();
 	}
@@ -119,7 +121,7 @@
 </div>
 
 {#if $docViewModeStore === 'render'}
-	<div class="container mt-3 fill-height">
+	<div class="markdown-renderer">
 		<Markdown content={contentToRender} />
 	</div>
 {/if}
@@ -137,7 +139,8 @@
 		border: none !important;
 	}
 
-	.fill-height {
-		height: calc(100vh - 161px) !important;
+	.markdown-renderer {
+		height: calc(100vh - 145px) !important;
+		overflow-y: auto;
 	}
 </style>
