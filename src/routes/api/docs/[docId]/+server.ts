@@ -1,4 +1,4 @@
-import { updateDoc } from '$lib/models/doc/mutations';
+import { deleteDoc, updateDoc } from '$lib/models/doc/mutations';
 import { docExistsWithIdAndUserId } from '$lib/models/doc/queries';
 import { updateDocSchema } from '$lib/models/doc/schemas';
 import { error, json } from '@sveltejs/kit';
@@ -37,7 +37,7 @@ export const POST = (async ({ locals, request, params }) => {
 		throw error(401, 'Unauthorized');
 	}
 
-	const udpatedDoc = await updateDoc({
+	const updatedDoc = await updateDoc({
 		description: fields.description,
 		title: fields.title,
 		content: fields.content,
@@ -45,6 +45,29 @@ export const POST = (async ({ locals, request, params }) => {
 	});
 
 	return json({
-		data: udpatedDoc
+		data: updatedDoc
+	});
+}) satisfies RequestHandler;
+
+export const DELETE = (async ({ locals, params }) => {
+	if (!locals.currentUser) throw error(401, 'Unauthorized');
+
+	const docId = parseInt(params.docId, 10);
+
+	const docExists = await docExistsWithIdAndUserId({
+		id: docId,
+		userId: locals.currentUser.id
+	});
+
+	if (!docExists) {
+		throw error(401, 'Unauthorized');
+	}
+
+	await deleteDoc({
+		id: docId
+	});
+
+	return new Response(null, {
+		status: 200
 	});
 }) satisfies RequestHandler;

@@ -6,7 +6,10 @@
 	import IconDotsVertical from '~icons/mdi/DotsVertical';
 	import { createEventDispatcher } from 'svelte';
 	import { docViewModeStore } from '$lib/stores/docViewModeStore';
+	import { toastStore } from '$lib/components/Toasts';
+	import { goto, invalidateAll } from '$app/navigation';
 
+	export let id: number;
 	export let title: string;
 	export let description: string;
 
@@ -20,6 +23,34 @@
 		if (e.key === 'Enter') {
 			dispatch('save');
 		}
+	}
+
+	async function deleteDoc() {
+		const r = await fetch(`/api/docs/${id}`, {
+			method: 'DELETE'
+		});
+
+		if (r.status !== 200) {
+			toastStore.push({
+				kind: 'danger',
+				message: 'Error deleting the document.',
+				title: 'Error',
+				closeAfterMs: 2000
+			});
+
+			return;
+		}
+
+		toastStore.push({
+			kind: 'success',
+			message: 'Document deleted successfully!',
+			title: 'Success',
+			closeAfterMs: 2000
+		});
+
+		await invalidateAll();
+
+		await goto('/app/docs');
 	}
 </script>
 
@@ -76,7 +107,7 @@
 					<hr class="dropdown-divider" />
 				</li>
 				<li>
-					<button class="dropdown-item text-danger">
+					<button on:click={deleteDoc} class="dropdown-item text-danger">
 						<IconTrash style="vertical-align: text-bottom;" />
 						Delete
 					</button>

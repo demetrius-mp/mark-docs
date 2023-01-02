@@ -95,6 +95,7 @@
 <KeyboardCommands on:save={throttledHandleSave} />
 
 <DocHeader
+	id={doc.id}
 	bind:title={doc.title}
 	bind:description={doc.description}
 	on:save={handleDocHeaderSave}
