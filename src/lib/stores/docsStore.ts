@@ -1,0 +1,26 @@
+import type { getAllDocsByUserId } from '$lib/models/doc/queries';
+import type { AsyncReturnType } from '$lib/types';
+import { writable } from 'svelte/store';
+
+function createDocsStore() {
+	const { subscribe, update, set } = writable<AsyncReturnType<typeof getAllDocsByUserId>>([]);
+
+	return {
+		subscribe,
+		set,
+		updateTitleById(req: { title: string; id: number }) {
+			update((docs) => {
+				return docs.map((doc) => {
+					if (doc.id === req.id) {
+						doc.title = req.title;
+						return doc;
+					} else {
+						return doc;
+					}
+				});
+			});
+		}
+	};
+}
+
+export const docsStore = createDocsStore();

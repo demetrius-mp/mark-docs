@@ -10,6 +10,7 @@
 	import DocHeader from '$lib/components/Site/DocHeader.svelte';
 	import { docViewModeStore } from '$lib/stores/docViewModeStore';
 	import KeyboardCommands from '$lib/components/Site/KeyboardCommands.svelte';
+	import { docsStore } from '$lib/stores/docsStore';
 
 	export let data: PageData;
 	$: doc = data.doc;
@@ -64,6 +65,11 @@
 				message: 'Document saved successfully!',
 				title: 'Success',
 				closeAfterMs: 2000
+			});
+
+			docsStore.updateTitleById({
+				id: doc.id,
+				title: doc.title
 			});
 		} else {
 			toastStore.push({

@@ -3,17 +3,20 @@
 	import DocList from '$lib/components/Site/DocList.svelte';
 	import NewDocForm from '$lib/components/Site/NewDocForm.svelte';
 	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
+	import { docsStore } from '$lib/stores/docsStore';
 	import { debounce } from 'lodash-es';
 	import { Splitpanes, Pane } from 'svelte-splitpanes';
 	import type { LayoutServerData } from './$types';
 
 	export let data: LayoutServerData;
 
+	$: $docsStore = data.docs;
+
 	let query = '';
-	$: filteredDocs = data.docs;
+	$: filteredDocs = $docsStore;
 
 	function searchDocs(query: string) {
-		filteredDocs = data.docs.filter(({ title }) => {
+		filteredDocs = $docsStore.filter(({ title }) => {
 			return title.toLowerCase().includes(query.toLowerCase());
 		});
 	}
