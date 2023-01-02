@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 
 export const load = (async ({ parent, params }) => {
 	const { docs } = await parent();
@@ -14,4 +14,4 @@ export const load = (async ({ parent, params }) => {
 	return {
 		doc
 	};
-}) satisfies PageServerLoad;
+}) satisfies PageLoad;
