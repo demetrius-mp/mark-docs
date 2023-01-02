@@ -23,7 +23,7 @@
 </script>
 
 <Splitpanes>
-	<Pane size={20}>
+	<Pane size={25} snapSize={18}>
 		<div class="p-2 d-flex flex-column gap-2">
 			<input
 				bind:value={query}
@@ -37,7 +37,8 @@
 			<DocList docs={filteredDocs} {currentDocId} />
 		</div>
 	</Pane>
-	<Pane size={80}>
+
+	<Pane size={75}>
 		<slot />
 	</Pane>
 </Splitpanes>
