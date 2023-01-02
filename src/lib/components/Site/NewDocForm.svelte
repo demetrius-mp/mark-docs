@@ -3,6 +3,7 @@
 	import Input from '$lib/components/Form/Input.svelte';
 	import SubmitButton from '$lib/components/Form/SubmitButton.svelte';
 	import TextArea from '$lib/components/Form/TextArea.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 	import type { createDoc } from '$lib/models/doc/mutations';
 	import { createDocSchema } from '$lib/models/doc/schemas';
 	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
@@ -57,18 +58,37 @@
 	}
 </script>
 
-<form class="d-flex flex-column gap-3" on:submit|preventDefault={handleSubmit}>
-	<Input bind:value={form.title} required maxlength={50} name="title" label="Title" />
-	<TextArea
-		bind:value={form.description}
-		required
-		maxlength={100}
-		name="description"
-		label="Description"
-	/>
+<Modal
+	on:show={newDocModalIsOpenStore.open}
+	on:hide={newDocModalIsOpenStore.close}
+	open={$newDocModalIsOpenStore}
+	id="newDocForm"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="newDocForm">Create a document</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+			</div>
+			<div class="modal-body">
+				<form class="d-flex flex-column gap-3" on:submit|preventDefault={handleSubmit}>
+					<Input bind:value={form.title} required maxlength={50} name="title" label="Title" />
+					<TextArea
+						bind:value={form.description}
+						required
+						maxlength={100}
+						name="description"
+						label="Description"
+					/>
 
-	<div class="d-flex justify-content-between">
-		<button class="btn btn-secondary">Cancel</button>
-		<SubmitButton {isSubmitting} />
+					<div class="d-flex justify-content-between">
+						<button data-bs-dismiss="modal" type="button" class="btn btn-secondary">
+							Cancel
+						</button>
+						<SubmitButton {isSubmitting} />
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
-</form>
+</Modal>
