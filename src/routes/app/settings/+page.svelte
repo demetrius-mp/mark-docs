@@ -3,23 +3,24 @@
 	import FormError from '$lib/components/Form/FormError.svelte';
 	import Input from '$lib/components/Form/Input.svelte';
 	import SubmitButton from '$lib/components/Form/SubmitButton.svelte';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	export let form: any;
+	export let form: ActionData;
 	export let data: PageData;
 
 	const currentUser = data.currentUser;
 
 	let fieldsToReset = {
 		password: '',
-		confirmPassword: ''
+		confirmPassword: '',
+		currentPassword: ''
 	};
 
 	function resetFields() {
 		fieldsToReset = {
 			password: '',
-			confirmPassword: ''
+			confirmPassword: '',
+			currentPassword: ''
 		};
 	}
 </script>
@@ -32,8 +33,8 @@
 	<FormError errors={form?.errors._errors} />
 
 	<Form
-		toastMessage="Signed up successfully!"
-		action="/sign-up"
+		toastMessage="Updated settings successfully!"
+		action="/app/settings"
 		method="post"
 		afterSubmit={resetFields}
 		let:isSubmitting
@@ -60,7 +61,7 @@
 			label="New password"
 			minlength={8}
 			value={fieldsToReset.password}
-			errors={form?.errors.password?._errors}
+			errors={form?.errors.newPassword?._errors}
 		/>
 		<Input
 			name="confirmNewPassword"
@@ -68,7 +69,7 @@
 			label="Confirm new password"
 			minlength={8}
 			value={fieldsToReset.confirmPassword}
-			errors={form?.errors.confirmPassword?._errors}
+			errors={form?.errors.confirmNewPassword?._errors}
 		/>
 		<Input
 			name="currentPassword"
@@ -76,8 +77,8 @@
 			label="Current password"
 			minlength={8}
 			required
-			value={fieldsToReset.confirmPassword}
-			errors={form?.errors.confirmPassword?._errors}
+			value={fieldsToReset.currentPassword}
+			errors={form?.errors.currentPassword?._errors}
 		/>
 		<div class="d-flex justify-content-end">
 			<SubmitButton {isSubmitting} />
