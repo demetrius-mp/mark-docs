@@ -26,6 +26,8 @@
 	}
 
 	async function deleteDoc() {
+		if (!confirm('Are you sure you want do delete this document?')) return;
+
 		const r = await fetch(`/api/docs/${id}`, {
 			method: 'DELETE'
 		});
