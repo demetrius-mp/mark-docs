@@ -23,12 +23,25 @@ model User {
   @@map("users")
 }
 
+enum Visibility {
+  PRIVATE
+  PUBLIC
+  ONLY_WITH_LINK
+}
+
+enum SharePrivileges {
+  EDITOR
+  VIEWER
+}
+
 model Doc {
   id Int @id @default(autoincrement()) @map("id")
 
-  title       String @map("title")
-  description String @map("description")
-  content     String @map("content")
+  title           String          @map("title")
+  description     String          @map("description")
+  content         String          @map("content")
+  visibility      Visibility      @default(PRIVATE)
+  sharePrivileges SharePrivileges @default(VIEWER)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
