@@ -18,7 +18,6 @@ export const load = (async ({ parent, params }) => {
 		  });
 
 	if (!doc) {
-		console.log(docId);
 		throw error(404, 'Document not found.');
 	}
 

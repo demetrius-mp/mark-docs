@@ -34,7 +34,6 @@ export const POST = (async ({ locals, request, params }) => {
 	});
 
 	if (!doc) {
-		console.log('here');
 		throw error(401, 'Unauthorized');
 	}
 
