@@ -7,12 +7,14 @@
 		errors?: string[];
 		class?: string;
 		required?: boolean;
+		value?: string;
 	}
 
 	export let name: string;
 	export let label: string | undefined = undefined;
 	export let errors: string[] | undefined = undefined;
 	export let required: boolean | undefined = false;
+	export let value: string | undefined = '';
 	let klass = '';
 	export { klass as class };
 </script>
@@ -32,7 +34,7 @@
 	<input
 		{name}
 		{required}
-		on:input
+		bind:value
 		class:is-invalid={errors}
 		class="form-control {klass}"
 		{...$$restProps}

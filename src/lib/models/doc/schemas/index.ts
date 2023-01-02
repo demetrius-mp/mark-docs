@@ -1,0 +1,1 @@
+export { createDocSchema } from './create';

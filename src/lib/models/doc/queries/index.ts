@@ -1,0 +1,1 @@
+export { getAllDocsByUserId } from './getAllByUserId';

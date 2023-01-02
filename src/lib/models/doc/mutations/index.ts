@@ -1,0 +1,1 @@
+export { createDoc } from './create';

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { docViewModeStore } from '$lib/stores/docViewModeStore';
+	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
 	import { onMount, createEventDispatcher } from 'svelte';
 
 	type Events = {
@@ -27,6 +28,13 @@
 			e.preventDefault();
 
 			docViewModeStore.edit();
+			return;
+		}
+
+		if (e.ctrlKey && e.key === 'd') {
+			e.preventDefault();
+
+			newDocModalIsOpenStore.toggle();
 			return;
 		}
 	}

@@ -1,20 +1,11 @@
+import { getAllDocsByUserId } from '$lib/models/doc/queries';
 import type { LayoutServerLoad } from './$types';
 
-export const load = (async () => {
-	const docs = [
-		{
-			id: 1,
-			title: 'My first document'
-		},
-		{
-			id: 2,
-			title: 'My second document'
-		},
-		{
-			id: 3,
-			title: 'Home tasks'
-		}
-	];
+export const load = (async ({ parent }) => {
+	const { currentUser } = await parent();
+	const docs = await getAllDocsByUserId({
+		userId: currentUser.id
+	});
 
 	return {
 		docs

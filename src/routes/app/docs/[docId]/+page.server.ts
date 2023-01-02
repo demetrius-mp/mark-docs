@@ -12,10 +12,6 @@ export const load = (async ({ parent, params }) => {
 	}
 
 	return {
-		doc: {
-			...doc,
-			description: `Description of my ${docId} document!`,
-			content: `# Hello from my ${docId} document!`
-		}
+		doc
 	};
 }) satisfies PageServerLoad;

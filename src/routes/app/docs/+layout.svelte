@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Modal from '$lib/components/Modal.svelte';
 	import DocList from '$lib/components/Site/DocList.svelte';
+	import NewDocForm from '$lib/components/Site/NewDocForm.svelte';
+	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
 	import { debounce } from 'lodash-es';
 	import { Splitpanes, Pane } from 'svelte-splitpanes';
 	import type { LayoutServerData } from './$types';
@@ -8,7 +11,7 @@
 	export let data: LayoutServerData;
 
 	let query = '';
-	let filteredDocs = data.docs;
+	$: filteredDocs = data.docs;
 
 	function searchDocs(query: string) {
 		filteredDocs = data.docs.filter(({ title }) => {
@@ -40,3 +43,17 @@
 		<slot />
 	</Pane>
 </Splitpanes>
+
+<Modal open={$newDocModalIsOpenStore} id="new doc form">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Create a document</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+			</div>
+			<div class="modal-body">
+				<NewDocForm />
+			</div>
+		</div>
+	</div>
+</Modal>

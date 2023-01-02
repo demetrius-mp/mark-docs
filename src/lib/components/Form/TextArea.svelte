@@ -7,12 +7,14 @@
 		errors?: string[];
 		class?: string;
 		required?: boolean;
+		value?: string;
 	}
 
 	export let name: string;
 	export let label: string | undefined = undefined;
 	export let errors: string[] | undefined = undefined;
 	export let required: boolean | undefined = false;
+	export let value: string | undefined = '';
 	let klass = '';
 	export { klass as class };
 
@@ -38,6 +40,7 @@
 	<textarea
 		{required}
 		bind:this={element}
+		bind:value
 		on:input={resize}
 		class="form-control {klass}"
 		{name}
