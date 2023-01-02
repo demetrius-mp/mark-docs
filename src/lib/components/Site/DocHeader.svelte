@@ -4,14 +4,20 @@
 	import IconEye from '~icons/mdi/Eye';
 	import IconPencil from '~icons/mdi/Pencil';
 	import IconDotsVertical from '~icons/mdi/DotsVertical';
+	import IconShareVariant from '~icons/mdi/ShareVariant';
 	import { createEventDispatcher } from 'svelte';
 	import { docViewModeStore } from '$lib/stores/docViewModeStore';
 	import { toastStore } from '$lib/components/Toasts';
 	import { goto, invalidateAll } from '$app/navigation';
+	import ShareDocModal from '$lib/components/Site/ShareDocModal.svelte';
+	import type { DocVisibility, SharedDocPrivileges } from '@prisma/client';
 
 	export let id: number;
+	export let uuid: string;
 	export let title: string;
 	export let description: string;
+	export let privileges: SharedDocPrivileges;
+	export let visibility: DocVisibility;
 
 	type Events = {
 		save: void;
@@ -54,6 +60,8 @@
 
 		await goto('/app/docs');
 	}
+
+	let shareDocModalIsOpen = false;
 </script>
 
 <div class="mx-2 mb-2">
@@ -109,6 +117,15 @@
 					<hr class="dropdown-divider" />
 				</li>
 				<li>
+					<button on:click={() => (shareDocModalIsOpen = true)} class="dropdown-item">
+						<IconShareVariant style="vertical-align: text-bottom;" />
+						Visibility
+					</button>
+				</li>
+				<li>
+					<hr class="dropdown-divider" />
+				</li>
+				<li>
 					<button on:click={deleteDoc} class="dropdown-item text-danger">
 						<IconTrash style="vertical-align: text-bottom;" />
 						Delete
@@ -125,6 +142,8 @@
 		on:keyup={handleEnterKeyUpOnInvisibleInputs}
 	/>
 </div>
+
+<ShareDocModal {id} {uuid} bind:open={shareDocModalIsOpen} {privileges} {visibility} />
 
 <style>
 	.invisible-input {

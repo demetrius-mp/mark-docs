@@ -105,6 +105,9 @@
 
 <DocHeader
 	id={doc.id}
+	uuid={doc.uuid}
+	privileges={doc.sharePrivileges}
+	visibility={doc.visibility}
 	bind:title={doc.title}
 	bind:description={doc.description}
 	on:save={handleDocHeaderSave}
