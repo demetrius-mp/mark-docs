@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import DocList from '$lib/components/Site/DocList.svelte';
 	import NewDocForm from '$lib/components/Site/NewDocForm.svelte';
+	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
 	import { debounce } from 'lodash-es';
 	import { Splitpanes, Pane } from 'svelte-splitpanes';
 	import type { LayoutServerData } from './$types';
@@ -23,7 +24,7 @@
 </script>
 
 <Splitpanes>
-	<Pane size={25} snapSize={18}>
+	<Pane bind:size={$docListPaneSizeStore} snapSize={18}>
 		<div class="p-2 d-flex flex-column gap-2">
 			<input
 				bind:value={query}
@@ -38,7 +39,7 @@
 		</div>
 	</Pane>
 
-	<Pane size={75}>
+	<Pane>
 		<slot />
 	</Pane>
 </Splitpanes>

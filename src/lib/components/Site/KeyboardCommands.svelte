@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
 	import { docViewModeStore } from '$lib/stores/docViewModeStore';
 	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
 	import { onMount, createEventDispatcher } from 'svelte';
@@ -36,6 +37,12 @@
 
 			newDocModalIsOpenStore.toggle();
 			return;
+		}
+
+		if (e.ctrlKey && e.key === 'b') {
+			e.preventDefault();
+
+			docListPaneSizeStore.toggle();
 		}
 	}
 
