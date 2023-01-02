@@ -45,7 +45,14 @@
 </svelte:head>
 
 <div>
-	<div class="px-3 markdown-body py-3">
+	<div class="px-3 markdown-body py-3 markdown-renderer">
 		{@html renderedContent}
 	</div>
 </div>
+
+<style>
+	.markdown-renderer {
+		height: calc(100vh - 145px) !important;
+		overflow-y: auto;
+	}
+</style>

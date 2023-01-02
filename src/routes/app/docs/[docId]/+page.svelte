@@ -131,9 +131,7 @@
 </div>
 
 {#if $docViewModeStore === 'render'}
-	<div class="markdown-renderer">
-		<Markdown content={contentToRender} />
-	</div>
+	<Markdown content={contentToRender} />
 {/if}
 
 <style>
@@ -147,10 +145,5 @@
 
 	:global(.ink-mde) {
 		border: none !important;
-	}
-
-	.markdown-renderer {
-		height: calc(100vh - 145px) !important;
-		overflow-y: auto;
 	}
 </style>
