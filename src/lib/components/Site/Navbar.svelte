@@ -25,19 +25,23 @@
 
 	$: signUpLinkIsActive = $page.route.id && $page.route.id === '/sign-up';
 	$: signInLinkIsActive = $page.route.id && $page.route.id === '/sign-in';
+
+	$: isDocsURL = $page.url.pathname.startsWith('/app/docs');
 </script>
 
 <nav class="navbar bg-body-secondary">
 	<div class="container-fluid">
 		<div class="d-flex gap-2">
-			<button
-				type="button"
-				class="menu"
-				title="Show/hide documents"
-				on:click={docListPaneSizeStore.toggle}
-			>
-				<IconMenu style="vertical-align: bottom; font-size: 1.35rem;" />
-			</button>
+			{#if isDocsURL}
+				<button
+					type="button"
+					class="menu"
+					title="Show/hide documents"
+					on:click={docListPaneSizeStore.toggle}
+				>
+					<IconMenu style="vertical-align: bottom; font-size: 1.35rem;" />
+				</button>
+			{/if}
 			<a class="navbar-brand" href="/app">
 				<IconLanguageMarkdown style="vertical-align: sub;" />
 				Mark Docs
