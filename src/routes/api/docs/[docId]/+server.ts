@@ -1,4 +1,5 @@
 import { updateDoc } from '$lib/models/doc/mutations';
+import { docExistsWithIdAndUserId } from '$lib/models/doc/queries';
 import { updateDocSchema } from '$lib/models/doc/schemas';
 import { error, json } from '@sveltejs/kit';
 import type { z } from 'zod';
@@ -26,6 +27,15 @@ export const POST = (async ({ locals, request, params }) => {
 	}
 
 	const fields = parsed.data;
+
+	const docExists = await docExistsWithIdAndUserId({
+		id: docId,
+		userId: locals.currentUser.id
+	});
+
+	if (!docExists) {
+		throw error(401, 'Unauthorized');
+	}
 
 	const udpatedDoc = await updateDoc({
 		description: fields.description,

@@ -44,7 +44,7 @@
 			title: 'Loading'
 		});
 
-		const r = await fetch(`/app/docs/${doc.id}/update`, {
+		const r = await fetch(`/api/docs/${doc.id}`, {
 			method: 'POST',
 			body: JSON.stringify({
 				title: doc.title,

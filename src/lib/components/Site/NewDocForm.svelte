@@ -28,7 +28,7 @@
 			return;
 		}
 
-		const r = await fetch('/app/docs/new', {
+		const r = await fetch('/api/docs', {
 			method: 'POST',
 			body: JSON.stringify(form)
 		});
