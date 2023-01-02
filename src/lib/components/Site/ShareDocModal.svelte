@@ -39,6 +39,16 @@
 				closeAfterMs: 2000
 			});
 
+			if (visibility === 'PUBLIC') {
+				toastStore.push({
+					kind: 'success',
+					message: 'Link copied to clipboard!',
+					title: 'Success',
+					closeAfterMs: 2000
+				});
+				navigator.clipboard.writeText(`${$page.url.host}/app/docs/${uuid}`);
+			}
+
 			open = false;
 		}
 
@@ -46,8 +56,7 @@
 	}
 
 	function copyLinkToClipboard() {
-		console.log(`${$page.url.host}/app/docs/shared/${uuid}`);
-		navigator.clipboard.writeText('');
+		navigator.clipboard.writeText(`${$page.url.host}/app/docs/${uuid}`);
 	}
 </script>
 

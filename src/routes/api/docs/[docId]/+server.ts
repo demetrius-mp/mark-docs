@@ -1,5 +1,5 @@
 import { deleteDoc, updateDoc } from '$lib/models/doc/mutations';
-import { docExistsWithIdAndUserId } from '$lib/models/doc/queries';
+import { docExistsWithIdAndUserId, getDocByIdOrUUID } from '$lib/models/doc/queries';
 import { updateDocSchema } from '$lib/models/doc/schemas';
 import { error, json } from '@sveltejs/kit';
 import type { z } from 'zod';
@@ -28,12 +28,20 @@ export const POST = (async ({ locals, request, params }) => {
 
 	const fields = parsed.data;
 
-	const docExists = await docExistsWithIdAndUserId({
+	const doc = await getDocByIdOrUUID({
 		id: docId,
-		userId: locals.currentUser.id
+		uuid: params.docId
 	});
 
-	if (!docExists) {
+	if (!doc) {
+		console.log('here');
+		throw error(401, 'Unauthorized');
+	}
+
+	if (
+		doc.userId !== locals.currentUser.id &&
+		(doc.visibility === 'PRIVATE' || doc.sharePrivileges !== 'EDITOR')
+	) {
 		throw error(401, 'Unauthorized');
 	}
 
