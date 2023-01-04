@@ -23,6 +23,7 @@ to create a beautiful and highly interactive UI.
 
 - <kbd>Ctrl</kbd> + <kbd>D</kbd>: Creates a new document.
 - <kbd>Ctrl</kbd> + <kbd>S</kbd>: Saves the document.
+- <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd>: Enter search documents mode.
 - <kbd>Ctrl</kbd> + <kbd>E</kbd>: Sets the view mode to **edit**.
 - <kbd>Ctrl</kbd> + <kbd>R</kbd>: Sets the view mode to **render**.
 

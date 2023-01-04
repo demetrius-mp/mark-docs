@@ -2,6 +2,7 @@
 	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
 	import { docViewModeStore } from '$lib/stores/docViewModeStore';
 	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
+	import { searchDocumentsInputStore } from '$lib/stores/searchDocumentsInputStore';
 	import { onMount, createEventDispatcher } from 'svelte';
 
 	type Events = {
@@ -43,6 +44,15 @@
 			e.preventDefault();
 
 			docListPaneSizeStore.toggle();
+			return;
+		}
+
+		if (e.ctrlKey && e.shiftKey && e.key === 'F') {
+			e.preventDefault();
+
+			searchDocumentsInputStore.focus();
+
+			return;
 		}
 	}
 

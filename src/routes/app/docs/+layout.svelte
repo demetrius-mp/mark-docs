@@ -4,6 +4,7 @@
 	import NewDocForm from '$lib/components/Site/NewDocForm.svelte';
 	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
 	import { docsStore } from '$lib/stores/docsStore';
+	import { searchDocumentsInputStore } from '$lib/stores/searchDocumentsInputStore';
 	import { debounce } from 'lodash-es';
 	import { Splitpanes, Pane } from 'svelte-splitpanes';
 	import type { LayoutServerData } from './$types';
@@ -12,12 +13,16 @@
 
 	$: $docsStore = data.docs;
 
-	let query = '';
 	$: filteredDocs = $docsStore;
 
 	function searchDocs(query: string) {
-		filteredDocs = $docsStore.filter(({ title }) => {
-			return title.toLowerCase().includes(query.toLowerCase());
+		filteredDocs = $docsStore.filter(({ title, description }) => {
+			const lowerCaseQuery = query.trim().toLowerCase();
+
+			const matchesTitle = () => title.toLowerCase().includes(lowerCaseQuery);
+			const matchesDescription = () => description.toLowerCase().includes(lowerCaseQuery);
+
+			return matchesTitle() || matchesDescription();
 		});
 	}
 
@@ -30,7 +35,7 @@
 	<Pane bind:size={$docListPaneSizeStore} snapSize={19}>
 		<div class="p-2 d-flex flex-column gap-2">
 			<input
-				bind:value={query}
+				bind:this={$searchDocumentsInputStore}
 				type="text"
 				class="form-control"
 				placeholder="Search documents"
