@@ -8,6 +8,7 @@
 		class?: string;
 		required?: boolean;
 		value?: string;
+		inner?: HTMLInputElement;
 	}
 
 	export let name: string;
@@ -15,8 +16,11 @@
 	export let errors: string[] | undefined = undefined;
 	export let required: boolean | undefined = false;
 	export let value: string | undefined = '';
-	let klass = '';
-	export { klass as class };
+
+	let class_ = '';
+	export { class_ as class };
+
+	export let inner: HTMLInputElement | undefined = undefined;
 </script>
 
 <div>
@@ -35,8 +39,9 @@
 		{name}
 		{required}
 		bind:value
+		bind:this={inner}
 		class:is-invalid={errors}
-		class="form-control {klass}"
+		class="form-control {class_}"
 		{...$$restProps}
 	/>
 

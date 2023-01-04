@@ -56,11 +56,15 @@
 			description: ''
 		};
 	}
+
+	let titleInputEl: HTMLInputElement | undefined;
 </script>
 
 <Modal
 	on:show={newDocModalIsOpenStore.open}
+	on:shown={() => titleInputEl?.focus()}
 	on:hide={newDocModalIsOpenStore.close}
+	on:hidden={() => titleInputEl?.blur()}
 	open={$newDocModalIsOpenStore}
 	id="newDocForm"
 >
@@ -72,7 +76,14 @@
 			</div>
 			<div class="modal-body">
 				<form class="d-flex flex-column gap-3" on:submit|preventDefault={handleSubmit}>
-					<Input bind:value={form.title} required maxlength={50} name="title" label="Title" />
+					<Input
+						bind:inner={titleInputEl}
+						bind:value={form.title}
+						required
+						maxlength={50}
+						name="title"
+						label="Title"
+					/>
 					<TextArea
 						bind:value={form.description}
 						required
