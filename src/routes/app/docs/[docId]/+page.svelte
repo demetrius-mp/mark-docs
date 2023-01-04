@@ -2,7 +2,7 @@
 	import { Ink } from 'ink-mde-svelte';
 	import { toastStore } from '$lib/components/Toasts';
 	import sleep from '$lib/utils/sleep';
-	import { debounce, throttle } from 'lodash-es';
+	import { throttle } from 'lodash-es';
 	import Markdown from '$lib/components/Markdown.svelte';
 	import type * as ink from 'ink-mde';
 	import { themeStore } from '$lib/stores/themeStore';
@@ -28,7 +28,6 @@
 		if (!editorRef) return;
 
 		doc.content = editorRef.getDoc();
-		debouncedSetDocContent.cancel();
 	}
 
 	$: {
@@ -83,12 +82,6 @@
 
 	const throttledHandleSave = throttle(handleSave, 5000);
 
-	function setDocContent(content: string) {
-		doc.content = content;
-	}
-
-	const debouncedSetDocContent = debounce(setDocContent, 3000);
-
 	function handleDocHeaderSave() {
 		throttledHandleSave.cancel();
 		handleSave();
@@ -119,9 +112,6 @@
 	<Ink
 		bind:editor={editorRef}
 		options={{
-			hooks: {
-				afterUpdate: debouncedSetDocContent
-			},
 			interface: {
 				appearance: $themeStore,
 				toolbar: true
