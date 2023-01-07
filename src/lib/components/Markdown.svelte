@@ -1,27 +1,15 @@
 <script lang="ts">
-	import { marked } from 'marked';
-	import DOMPurify from 'dompurify';
-	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
 	import { themeStore } from '$lib/stores/themeStore';
+	import type { HTMLBaseAttributes } from 'svelte/elements';
+
+	interface $$Props extends HTMLBaseAttributes {
+		content: string;
+		class?: string;
+	}
 
 	export let content: string;
-
-	let renderedContent = '';
-
-	function renderToMarkdown(value: string) {
-		return DOMPurify.sanitize(marked(value));
-	}
-
-	onMount(() => {
-		renderedContent = renderToMarkdown(content);
-	});
-
-	$: {
-		if (browser) {
-			renderedContent = renderToMarkdown(content);
-		}
-	}
+	let klass = '';
+	export { klass as class };
 </script>
 
 <svelte:head>
@@ -44,15 +32,6 @@
 	{/if}
 </svelte:head>
 
-<div>
-	<div class="px-3 markdown-body py-3 markdown-renderer">
-		{@html renderedContent}
-	</div>
+<div {...$$restProps} class="markdown-body {klass}">
+	{@html content}
 </div>
-
-<style>
-	.markdown-renderer {
-		height: calc(100vh - 145px) !important;
-		overflow-y: auto;
-	}
-</style>

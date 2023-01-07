@@ -12,46 +12,68 @@
 	const dispatch = createEventDispatcher<Events>();
 
 	async function handleKeyDown(e: KeyboardEvent) {
-		if (e.ctrlKey && e.key === 's') {
+		const isCommandEntry = e.ctrlKey && e.shiftKey;
+
+		if (!isCommandEntry) return;
+
+		const COMMAND_KEYS = {
+			SAVE: 'S',
+			FOCUS_SEARCH_INPUT: 'F',
+			NEW_DOC: 'D',
+			TOGGLE_DOC_LIST: 'B',
+			RENDER_LAYOUT: 'R',
+			EDIT_LAYOUT: 'E',
+			HYBRID_LAYOUT: 'H'
+		};
+
+		if (e.key === COMMAND_KEYS.SAVE) {
 			e.preventDefault();
 
 			dispatch('save');
 			return;
 		}
 
-		if (e.ctrlKey && e.key === 'r') {
+		if (e.key === COMMAND_KEYS.RENDER_LAYOUT) {
 			e.preventDefault();
 
 			docLayoutStore.render();
 			return;
 		}
 
-		if (e.ctrlKey && e.key === 'e') {
+		if (e.key === COMMAND_KEYS.EDIT_LAYOUT) {
 			e.preventDefault();
 
 			docLayoutStore.edit();
 			return;
 		}
 
-		if (e.ctrlKey && e.key === 'd') {
+		if (e.key === COMMAND_KEYS.HYBRID_LAYOUT) {
+			e.preventDefault();
+
+			docLayoutStore.hybrid();
+
+			return;
+		}
+
+		if (e.key === COMMAND_KEYS.FOCUS_SEARCH_INPUT) {
+			e.preventDefault();
+
+			searchDocumentsInputStore.focus();
+
+			return;
+		}
+
+		if (e.key === COMMAND_KEYS.NEW_DOC) {
 			e.preventDefault();
 
 			newDocModalIsOpenStore.toggle();
 			return;
 		}
 
-		if (e.ctrlKey && e.key === 'b') {
+		if (e.key === COMMAND_KEYS.TOGGLE_DOC_LIST) {
 			e.preventDefault();
 
 			docListPaneSizeStore.toggle();
-			return;
-		}
-
-		if (e.ctrlKey && e.shiftKey && e.key === 'F') {
-			e.preventDefault();
-
-			searchDocumentsInputStore.focus();
-
 			return;
 		}
 	}

@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-type DocLayout = 'render' | 'edit';
+type DocLayout = 'render' | 'edit' | 'hybrid';
 
 function createDocLayoutStore() {
 	const { set, subscribe } = writable<DocLayout>('edit');
@@ -12,6 +12,9 @@ function createDocLayoutStore() {
 		},
 		edit() {
 			set('edit');
+		},
+		hybrid() {
+			set('hybrid');
 		}
 	};
 }

@@ -2,7 +2,7 @@
 	import { Ink } from 'ink-mde-svelte';
 	import { toastStore } from '$lib/components/Toasts';
 	import sleep from '$lib/utils/sleep';
-	import { throttle } from 'lodash-es';
+	import { debounce, throttle } from 'lodash-es';
 	import Markdown from '$lib/components/Markdown.svelte';
 	import type * as ink from 'ink-mde';
 	import { themeStore } from '$lib/stores/themeStore';
@@ -12,6 +12,9 @@
 	import KeyboardCommands from '$lib/components/Site/KeyboardCommands.svelte';
 	import { docsStore } from '$lib/stores/docsStore';
 	import { Pane } from 'svelte-splitpanes';
+	import { browser } from '$app/environment';
+	import DOMPurify from 'dompurify';
+	import { marked } from 'marked';
 
 	export let data: PageData;
 	$: doc = data.doc;
@@ -22,8 +25,20 @@
 		}
 	}
 
-	let contentToRender = data.doc.content;
+	// let contentToRender = data.doc.content;
 	let editorRef: ink.Instance;
+
+	// new
+	function renderToMarkdown(value: string) {
+		return DOMPurify.sanitize(marked(value));
+	}
+	let renderedContent = '';
+	$: {
+		if (browser && doc.content) {
+			renderedContent = renderToMarkdown(doc.content);
+		}
+	}
+	// end: new
 
 	function syncDoc() {
 		if (!editorRef) return;
@@ -34,7 +49,7 @@
 	$: {
 		if ($docLayoutStore === 'render') {
 			syncDoc();
-			contentToRender = doc.content;
+			renderedContent = renderToMarkdown(doc.content);
 		}
 	}
 
@@ -87,6 +102,10 @@
 		throttledHandleSave.cancel();
 		handleSave();
 	}
+
+	const handleInkAfterUpdate = debounce((value: string) => {
+		doc.content = value;
+	}, 1000);
 </script>
 
 <svelte:head>
@@ -110,8 +129,9 @@
 
 	<hr class="m-0" />
 
-	<div class:d-none={$docLayoutStore !== 'edit'}>
+	<div class:d-none={$docLayoutStore === 'render'}>
 		<Ink
+			on:afterUpdate={({ detail }) => handleInkAfterUpdate(detail)}
 			bind:editor={editorRef}
 			options={{
 				interface: {
@@ -123,9 +143,15 @@
 	</div>
 
 	{#if $docLayoutStore === 'render'}
-		<Markdown content={contentToRender} />
+		<Markdown style="height: calc(100vh - 145px);" class="p-3" content={renderedContent} />
 	{/if}
 </Pane>
+
+{#if $docLayoutStore === 'hybrid'}
+	<Pane snapSize={20}>
+		<Markdown style="height: calc(100vh - 56px);" class="p-3" content={renderedContent} />
+	</Pane>
+{/if}
 
 <style>
 	:global(.ͼ1.cm-editor.cm-focused) {

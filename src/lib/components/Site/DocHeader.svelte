@@ -3,6 +3,7 @@
 	import IconTrash from '~icons/mdi/Trash';
 	import IconContentSave from '~icons/mdi/ContentSave';
 	import IconEye from '~icons/mdi/Eye';
+	import IconBookOpen from '~icons/mdi/BookOpen';
 	import IconPencil from '~icons/mdi/Pencil';
 	import IconDotsVertical from '~icons/mdi/DotsVertical';
 	import IconShareVariant from '~icons/mdi/ShareVariant';
@@ -92,7 +93,17 @@
 			</button>
 			<ul class="dropdown-menu">
 				<li>
-					<h6 class="dropdown-header text-wrap">View mode</h6>
+					<h6 class="dropdown-header text-wrap">Layout</h6>
+				</li>
+				<li class="mb-1">
+					<button
+						on:click={docLayoutStore.hybrid}
+						class:active={$docLayoutStore === 'hybrid'}
+						class="dropdown-item"
+					>
+						<IconBookOpen style="vertical-align: text-bottom;" />
+						Hybrid
+					</button>
 				</li>
 				<li class="mb-1">
 					<button
