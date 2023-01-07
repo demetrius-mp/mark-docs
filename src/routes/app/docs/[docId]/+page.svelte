@@ -11,6 +11,7 @@
 	import { docLayoutStore } from '$lib/stores/docLayoutStore';
 	import KeyboardCommands from '$lib/components/Site/KeyboardCommands.svelte';
 	import { docsStore } from '$lib/stores/docsStore';
+	import { Pane } from 'svelte-splitpanes';
 
 	export let data: PageData;
 	$: doc = data.doc;
@@ -96,33 +97,35 @@
 
 <KeyboardCommands on:save={throttledHandleSave} />
 
-<DocHeader
-	id={doc.id}
-	uuid={doc.uuid}
-	privileges={doc.sharePrivileges}
-	visibility={doc.visibility}
-	bind:title={doc.title}
-	bind:description={doc.description}
-	on:save={handleDocHeaderSave}
-/>
-
-<hr class="m-0" />
-
-<div class:d-none={$docLayoutStore !== 'edit'}>
-	<Ink
-		bind:editor={editorRef}
-		options={{
-			interface: {
-				appearance: $themeStore,
-				toolbar: true
-			}
-		}}
+<Pane>
+	<DocHeader
+		id={doc.id}
+		uuid={doc.uuid}
+		privileges={doc.sharePrivileges}
+		visibility={doc.visibility}
+		bind:title={doc.title}
+		bind:description={doc.description}
+		on:save={handleDocHeaderSave}
 	/>
-</div>
 
-{#if $docLayoutStore === 'render'}
-	<Markdown content={contentToRender} />
-{/if}
+	<hr class="m-0" />
+
+	<div class:d-none={$docLayoutStore !== 'edit'}>
+		<Ink
+			bind:editor={editorRef}
+			options={{
+				interface: {
+					appearance: $themeStore,
+					toolbar: true
+				}
+			}}
+		/>
+	</div>
+
+	{#if $docLayoutStore === 'render'}
+		<Markdown content={contentToRender} />
+	{/if}
+</Pane>
 
 <style>
 	:global(.ͼ1.cm-editor.cm-focused) {

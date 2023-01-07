@@ -47,9 +47,7 @@
 		</div>
 	</Pane>
 
-	<Pane>
-		<slot />
-	</Pane>
+	<slot />
 </Splitpanes>
 
 <NewDocForm />
