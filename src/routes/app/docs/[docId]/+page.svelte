@@ -8,7 +8,7 @@
 	import { themeStore } from '$lib/stores/themeStore';
 	import type { PageData } from './$types';
 	import DocHeader from '$lib/components/Site/DocHeader.svelte';
-	import { docViewModeStore } from '$lib/stores/docViewModeStore';
+	import { docLayoutStore } from '$lib/stores/docLayoutStore';
 	import KeyboardCommands from '$lib/components/Site/KeyboardCommands.svelte';
 	import { docsStore } from '$lib/stores/docsStore';
 
@@ -31,7 +31,7 @@
 	}
 
 	$: {
-		if ($docViewModeStore === 'render') {
+		if ($docLayoutStore === 'render') {
 			syncDoc();
 			contentToRender = doc.content;
 		}
@@ -108,7 +108,7 @@
 
 <hr class="m-0" />
 
-<div class:d-none={$docViewModeStore !== 'edit'}>
+<div class:d-none={$docLayoutStore !== 'edit'}>
 	<Ink
 		bind:editor={editorRef}
 		options={{
@@ -120,7 +120,7 @@
 	/>
 </div>
 
-{#if $docViewModeStore === 'render'}
+{#if $docLayoutStore === 'render'}
 	<Markdown content={contentToRender} />
 {/if}
 

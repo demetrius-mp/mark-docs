@@ -7,7 +7,7 @@
 	import IconDotsVertical from '~icons/mdi/DotsVertical';
 	import IconShareVariant from '~icons/mdi/ShareVariant';
 	import { createEventDispatcher } from 'svelte';
-	import { docViewModeStore } from '$lib/stores/docViewModeStore';
+	import { docLayoutStore } from '$lib/stores/docLayoutStore';
 	import { toastStore } from '$lib/components/Toasts';
 	import { goto, invalidateAll } from '$app/navigation';
 	import ShareDocModal from '$lib/components/Site/ShareDocModal.svelte';
@@ -96,8 +96,8 @@
 				</li>
 				<li class="mb-1">
 					<button
-						on:click={docViewModeStore.edit}
-						class:active={$docViewModeStore === 'edit'}
+						on:click={docLayoutStore.edit}
+						class:active={$docLayoutStore === 'edit'}
 						class="dropdown-item"
 					>
 						<IconPencil style="vertical-align: text-bottom;" />
@@ -106,8 +106,8 @@
 				</li>
 				<li>
 					<button
-						on:click={docViewModeStore.render}
-						class:active={$docViewModeStore === 'render'}
+						on:click={docLayoutStore.render}
+						class:active={$docLayoutStore === 'render'}
 						class="dropdown-item"
 					>
 						<IconEye style="vertical-align: text-bottom;" />

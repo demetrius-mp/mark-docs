@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { docListPaneSizeStore } from '$lib/stores/docListPaneSizeStore';
-	import { docViewModeStore } from '$lib/stores/docViewModeStore';
+	import { docLayoutStore } from '$lib/stores/docLayoutStore';
 	import { newDocModalIsOpenStore } from '$lib/stores/newDocModalIsOpenStore';
 	import { searchDocumentsInputStore } from '$lib/stores/searchDocumentsInputStore';
 	import { onMount, createEventDispatcher } from 'svelte';
@@ -22,14 +22,14 @@
 		if (e.ctrlKey && e.key === 'r') {
 			e.preventDefault();
 
-			docViewModeStore.render();
+			docLayoutStore.render();
 			return;
 		}
 
 		if (e.ctrlKey && e.key === 'e') {
 			e.preventDefault();
 
-			docViewModeStore.edit();
+			docLayoutStore.edit();
 			return;
 		}
 
